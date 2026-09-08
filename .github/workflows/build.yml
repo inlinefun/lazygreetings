@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+concurrency:
+  cancel-in-progress: true
+  group: build-${{ github.ref }}
+
 jobs:
   assemble_debug:
     name: Build Debug variant
