@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface LazyNavRoute : NavKey {
     @Serializable
     data object Content : LazyNavRoute
+
     @Serializable
     data object Settings : LazyNavRoute
 }
@@ -13,6 +14,7 @@ sealed interface LazyNavRoute : NavKey {
 sealed interface LazyContentChoice : NavKey {
     @Serializable
     data object Calendar : LazyContentChoice
+
     @Serializable
     data object GreetingCards : LazyContentChoice
 }
