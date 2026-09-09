@@ -52,5 +52,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime)
     implementation(libs.androidx.navigation.ui)
 
+    implementation(libs.google.accompanist.permissions)
+
     implementation(libs.kotlinx.serialization.core)
 }
