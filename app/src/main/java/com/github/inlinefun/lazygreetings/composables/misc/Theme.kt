@@ -13,7 +13,7 @@ fun LazyGreetingsTheme(
     content: @Composable () -> Unit
 ) = MaterialExpressiveTheme(
     colorScheme = LocalContext.current.let { context ->
-        when(useDarkTheme) {
+        when (useDarkTheme) {
             true -> dynamicDarkColorScheme(context = context)
             false -> dynamicLightColorScheme(context = context)
         }

@@ -1,5 +1,4 @@
-<animated-vector
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt">
     <aapt:attr name="android:drawable">
         <vector
@@ -10,110 +9,110 @@
             android:viewportHeight="108">
             <path
                 android:name="calendar"
-                android:pathData="M 37.083 78.167 C 35.754 78.167 34.616 77.693 33.67 76.747 C 32.723 75.8 32.25 74.662 32.25 73.333 L 32.25 39.5 C 32.25 38.171 32.723 37.033 33.67 36.087 C 34.616 35.14 35.754 34.667 37.083 34.667 L 39.5 34.667 L 39.5 32.25 C 39.5 31.565 39.732 30.991 40.195 30.528 C 40.658 30.065 41.232 29.833 41.917 29.833 C 42.601 29.833 43.175 30.065 43.639 30.528 C 44.102 30.991 44.333 31.565 44.333 32.25 L 44.333 34.667 L 63.667 34.667 L 63.667 32.25 C 63.667 31.565 63.898 30.991 64.362 30.528 C 64.825 30.065 65.399 29.833 66.083 29.833 C 66.768 29.833 67.342 30.065 67.805 30.528 C 68.268 30.991 68.5 31.565 68.5 32.25 L 68.5 34.667 L 70.917 34.667 C 72.246 34.667 73.384 35.14 74.33 36.087 C 75.277 37.033 75.75 38.171 75.75 39.5 L 75.75 73.333 C 75.75 74.662 75.277 75.8 74.33 76.747 C 73.384 77.693 72.246 78.167 70.917 78.167 L 37.083 78.167 Z M 37.083 73.333 L 70.917 73.333 L 70.917 49.167 L 37.083 49.167 L 37.083 73.333 Z M 37.083 44.333 L 70.917 44.333 L 70.917 39.5 L 37.083 39.5 L 37.083 44.333 Z"
-                android:fillColor="#ffffff"/>
+                android:fillColor="#ffffff"
+                android:pathData="M 37.083 78.167 C 35.754 78.167 34.616 77.693 33.67 76.747 C 32.723 75.8 32.25 74.662 32.25 73.333 L 32.25 39.5 C 32.25 38.171 32.723 37.033 33.67 36.087 C 34.616 35.14 35.754 34.667 37.083 34.667 L 39.5 34.667 L 39.5 32.25 C 39.5 31.565 39.732 30.991 40.195 30.528 C 40.658 30.065 41.232 29.833 41.917 29.833 C 42.601 29.833 43.175 30.065 43.639 30.528 C 44.102 30.991 44.333 31.565 44.333 32.25 L 44.333 34.667 L 63.667 34.667 L 63.667 32.25 C 63.667 31.565 63.898 30.991 64.362 30.528 C 64.825 30.065 65.399 29.833 66.083 29.833 C 66.768 29.833 67.342 30.065 67.805 30.528 C 68.268 30.991 68.5 31.565 68.5 32.25 L 68.5 34.667 L 70.917 34.667 C 72.246 34.667 73.384 35.14 74.33 36.087 C 75.277 37.033 75.75 38.171 75.75 39.5 L 75.75 73.333 C 75.75 74.662 75.277 75.8 74.33 76.747 C 73.384 77.693 72.246 78.167 70.917 78.167 L 37.083 78.167 Z M 37.083 73.333 L 70.917 73.333 L 70.917 49.167 L 37.083 49.167 L 37.083 73.333 Z M 37.083 44.333 L 70.917 44.333 L 70.917 39.5 L 37.083 39.5 L 37.083 44.333 Z" />
             <path
                 android:name="indicator_1"
-                android:pathData="M 41.917 56.417 C 41.917 57.101 42.148 57.675 42.611 58.139 C 43.075 58.602 43.649 58.833 44.333 58.833 C 45.018 58.833 45.592 58.602 46.055 58.139 C 46.518 57.675 46.75 57.101 46.75 56.417 C 46.75 55.732 46.518 55.158 46.055 54.695 C 45.592 54.232 45.018 54 44.333 54 C 43.649 54 43.075 54.232 42.611 54.695 C 42.148 55.158 41.917 55.732 41.917 56.417 Z"
+                android:fillAlpha="0"
                 android:fillColor="#ffffff"
-                android:fillAlpha="0"/>
+                android:pathData="M 41.917 56.417 C 41.917 57.101 42.148 57.675 42.611 58.139 C 43.075 58.602 43.649 58.833 44.333 58.833 C 45.018 58.833 45.592 58.602 46.055 58.139 C 46.518 57.675 46.75 57.101 46.75 56.417 C 46.75 55.732 46.518 55.158 46.055 54.695 C 45.592 54.232 45.018 54 44.333 54 C 43.649 54 43.075 54.232 42.611 54.695 C 42.148 55.158 41.917 55.732 41.917 56.417 Z" />
             <path
                 android:name="indicator_2"
-                android:pathData="M 52.278 58.139 C 52.741 58.602 53.315 58.833 54 58.833 C 54.685 58.833 55.259 58.602 55.722 58.139 C 56.185 57.675 56.417 57.101 56.417 56.417 C 56.417 55.732 56.185 55.158 55.722 54.695 C 55.259 54.232 54.685 54 54 54 C 53.315 54 52.741 54.232 52.278 54.695 C 51.815 55.158 51.583 55.732 51.583 56.417 C 51.583 57.101 51.815 57.675 52.278 58.139 Z"
+                android:fillAlpha="0"
                 android:fillColor="#ffffff"
-                android:fillAlpha="0"/>
+                android:pathData="M 52.278 58.139 C 52.741 58.602 53.315 58.833 54 58.833 C 54.685 58.833 55.259 58.602 55.722 58.139 C 56.185 57.675 56.417 57.101 56.417 56.417 C 56.417 55.732 56.185 55.158 55.722 54.695 C 55.259 54.232 54.685 54 54 54 C 53.315 54 52.741 54.232 52.278 54.695 C 51.815 55.158 51.583 55.732 51.583 56.417 C 51.583 57.101 51.815 57.675 52.278 58.139 Z" />
             <path
                 android:name="indicator_3"
-                android:pathData="M 61.945 58.139 C 62.408 58.602 62.982 58.833 63.667 58.833 C 64.351 58.833 64.925 58.602 65.388 58.139 C 65.852 57.675 66.083 57.101 66.083 56.417 C 66.083 55.732 65.852 55.158 65.388 54.695 C 64.925 54.232 64.351 54 63.667 54 C 62.982 54 62.408 54.232 61.945 54.695 C 61.482 55.158 61.25 55.732 61.25 56.417 C 61.25 57.101 61.482 57.675 61.945 58.139 Z"
+                android:fillAlpha="0"
                 android:fillColor="#ffffff"
-                android:fillAlpha="0"/>
+                android:pathData="M 61.945 58.139 C 62.408 58.602 62.982 58.833 63.667 58.833 C 64.351 58.833 64.925 58.602 65.388 58.139 C 65.852 57.675 66.083 57.101 66.083 56.417 C 66.083 55.732 65.852 55.158 65.388 54.695 C 64.925 54.232 64.351 54 63.667 54 C 62.982 54 62.408 54.232 61.945 54.695 C 61.482 55.158 61.25 55.732 61.25 56.417 C 61.25 57.101 61.482 57.675 61.945 58.139 Z" />
             <path
                 android:name="indicator_4"
-                android:pathData="M 41.917 66.083 C 41.917 66.768 42.148 67.342 42.611 67.805 C 43.075 68.268 43.649 68.5 44.333 68.5 C 45.018 68.5 45.592 68.268 46.055 67.805 C 46.518 67.342 46.75 66.768 46.75 66.083 C 46.75 65.399 46.518 64.825 46.055 64.362 C 45.592 63.898 45.018 63.667 44.333 63.667 C 43.649 63.667 43.075 63.898 42.611 64.362 C 42.148 64.825 41.917 65.399 41.917 66.083 Z"
+                android:fillAlpha="0"
                 android:fillColor="#ffffff"
-                android:fillAlpha="0"/>
+                android:pathData="M 41.917 66.083 C 41.917 66.768 42.148 67.342 42.611 67.805 C 43.075 68.268 43.649 68.5 44.333 68.5 C 45.018 68.5 45.592 68.268 46.055 67.805 C 46.518 67.342 46.75 66.768 46.75 66.083 C 46.75 65.399 46.518 64.825 46.055 64.362 C 45.592 63.898 45.018 63.667 44.333 63.667 C 43.649 63.667 43.075 63.898 42.611 64.362 C 42.148 64.825 41.917 65.399 41.917 66.083 Z" />
             <path
                 android:name="indicator_5"
-                android:pathData="M 52.278 67.805 C 52.741 68.268 53.315 68.5 54 68.5 C 54.685 68.5 55.259 68.268 55.722 67.805 C 56.185 67.342 56.417 66.768 56.417 66.083 C 56.417 65.399 56.185 64.825 55.722 64.362 C 55.259 63.898 54.685 63.667 54 63.667 C 53.315 63.667 52.741 63.898 52.278 64.362 C 51.815 64.825 51.583 65.399 51.583 66.083 C 51.583 66.768 51.815 67.342 52.278 67.805 Z"
+                android:fillAlpha="0"
                 android:fillColor="#ffffff"
-                android:fillAlpha="0"/>
+                android:pathData="M 52.278 67.805 C 52.741 68.268 53.315 68.5 54 68.5 C 54.685 68.5 55.259 68.268 55.722 67.805 C 56.185 67.342 56.417 66.768 56.417 66.083 C 56.417 65.399 56.185 64.825 55.722 64.362 C 55.259 63.898 54.685 63.667 54 63.667 C 53.315 63.667 52.741 63.898 52.278 64.362 C 51.815 64.825 51.583 65.399 51.583 66.083 C 51.583 66.768 51.815 67.342 52.278 67.805 Z" />
             <path
                 android:name="indicator_6"
-                android:pathData="M 61.945 67.805 C 62.408 68.268 62.982 68.5 63.667 68.5 C 64.351 68.5 64.925 68.268 65.388 67.805 C 65.852 67.342 66.083 66.768 66.083 66.083 C 66.083 65.399 65.852 64.825 65.388 64.362 C 64.925 63.898 64.351 63.667 63.667 63.667 C 62.982 63.667 62.408 63.898 61.945 64.362 C 61.482 64.825 61.25 65.399 61.25 66.083 C 61.25 66.768 61.482 67.342 61.945 67.805 Z"
+                android:fillAlpha="0"
                 android:fillColor="#ffffff"
-                android:fillAlpha="0"/>
+                android:pathData="M 61.945 67.805 C 62.408 68.268 62.982 68.5 63.667 68.5 C 64.351 68.5 64.925 68.268 65.388 67.805 C 65.852 67.342 66.083 66.768 66.083 66.083 C 66.083 65.399 65.852 64.825 65.388 64.362 C 64.925 63.898 64.351 63.667 63.667 63.667 C 62.982 63.667 62.408 63.898 61.945 64.362 C 61.482 64.825 61.25 65.399 61.25 66.083 C 61.25 66.768 61.482 67.342 61.945 67.805 Z" />
         </vector>
     </aapt:attr>
     <target android:name="indicator_1">
         <aapt:attr name="android:animation">
             <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="fillAlpha"
                 android:startOffset="100"
-                android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
-                android:valueType="floatType"
-                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                android:valueType="floatType" />
         </aapt:attr>
     </target>
     <target android:name="indicator_2">
         <aapt:attr name="android:animation">
             <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="fillAlpha"
                 android:startOffset="200"
-                android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
-                android:valueType="floatType"
-                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                android:valueType="floatType" />
         </aapt:attr>
     </target>
     <target android:name="indicator_4">
         <aapt:attr name="android:animation">
             <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="fillAlpha"
                 android:startOffset="200"
-                android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
-                android:valueType="floatType"
-                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                android:valueType="floatType" />
         </aapt:attr>
     </target>
     <target android:name="indicator_3">
         <aapt:attr name="android:animation">
             <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="fillAlpha"
                 android:startOffset="300"
-                android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
-                android:valueType="floatType"
-                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                android:valueType="floatType" />
         </aapt:attr>
     </target>
     <target android:name="indicator_5">
         <aapt:attr name="android:animation">
             <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="fillAlpha"
                 android:startOffset="300"
-                android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
-                android:valueType="floatType"
-                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                android:valueType="floatType" />
         </aapt:attr>
     </target>
     <target android:name="indicator_6">
         <aapt:attr name="android:animation">
             <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="fillAlpha"
                 android:startOffset="400"
-                android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
-                android:valueType="floatType"
-                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                android:valueType="floatType" />
         </aapt:attr>
     </target>
 </animated-vector>
