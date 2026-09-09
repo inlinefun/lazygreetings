@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.dagger.hilt.android)
+    alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -29,8 +31,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
@@ -53,6 +55,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.google.accompanist.permissions)
+    implementation(libs.google.dagger.hilt.android)
+    ksp(libs.google.dagger.hilt.android.compiler)
 
     implementation(libs.kotlinx.serialization.core)
 }

@@ -9,8 +9,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.github.inlinefun.lazygreetings.composables.misc.LazyGreetingsTheme
 import com.github.inlinefun.lazygreetings.composables.navigation.LazyNavigationHost
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class LazyGreetingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
