@@ -48,6 +48,7 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:propertyName="fillAlpha"
+                android:startOffset="100"
                 android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
@@ -59,7 +60,7 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:propertyName="fillAlpha"
-                android:startOffset="100"
+                android:startOffset="200"
                 android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
@@ -71,7 +72,7 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:propertyName="fillAlpha"
-                android:startOffset="100"
+                android:startOffset="200"
                 android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
@@ -83,7 +84,7 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:propertyName="fillAlpha"
-                android:startOffset="200"
+                android:startOffset="300"
                 android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
@@ -95,7 +96,7 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:propertyName="fillAlpha"
-                android:startOffset="200"
+                android:startOffset="300"
                 android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
@@ -107,7 +108,7 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:propertyName="fillAlpha"
-                android:startOffset="300"
+                android:startOffset="400"
                 android:duration="100"
                 android:valueFrom="0"
                 android:valueTo="1"
