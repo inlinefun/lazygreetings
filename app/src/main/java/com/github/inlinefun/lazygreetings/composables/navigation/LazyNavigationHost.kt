@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyNavDisplay
 import com.github.inlinefun.lazygreetings.composables.screens.ContentScreen
+import com.github.inlinefun.lazygreetings.composables.screens.SettingsScreen
 import com.github.inlinefun.lazygreetings.data.LazyNavRoute
 
 @Composable
@@ -18,7 +19,14 @@ fun LazyNavigationHost(
         modifier = modifier,
         entryProvider = entryProvider {
             entry<LazyNavRoute.Content> {
-                ContentScreen()
+                ContentScreen(
+                    navigateTo = backStack::add
+                )
+            }
+            entry<LazyNavRoute.Settings> {
+                SettingsScreen(
+                    onBack = backStack::removeLastOrNull
+                )
             }
         }
     )

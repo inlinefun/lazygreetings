@@ -17,9 +17,11 @@ import com.github.inlinefun.lazygreetings.composables.navigation.LazyContentTopB
 import com.github.inlinefun.lazygreetings.composables.screens.content.CalendarContent
 import com.github.inlinefun.lazygreetings.composables.screens.content.GreetingCardsContent
 import com.github.inlinefun.lazygreetings.data.LazyContentChoice
+import com.github.inlinefun.lazygreetings.data.LazyNavRoute
 
 @Composable
 fun ContentScreen(
+    navigateTo: (LazyNavRoute) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val contentBackStack = rememberNavBackStack(LazyContentChoice.Calendar)
@@ -31,7 +33,9 @@ fun ContentScreen(
             LazyContentTopBar(
                 // not a very good idea
                 currentChoice = currentChoice as LazyContentChoice,
-                onNavigateAction = { }
+                onAction = {
+                    navigateTo(LazyNavRoute.Settings)
+                }
             )
         },
         bottomBar = {
@@ -67,6 +71,8 @@ fun ContentScreen(
 @Composable
 private fun PreviewContentScreen() {
     LazyGreetingsTheme {
-        ContentScreen()
+        ContentScreen(
+            navigateTo = { }
+        )
     }
 }

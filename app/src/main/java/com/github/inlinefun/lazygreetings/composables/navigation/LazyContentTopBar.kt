@@ -20,7 +20,7 @@ import com.github.inlinefun.lazygreetings.data.LazyContentChoice
 @Composable
 fun <T> LazyContentTopBar(
     currentChoice: T,
-    onNavigateAction: () -> Unit,
+    onAction: () -> Unit,
     modifier: Modifier = Modifier
 ) where T : NavKey, T : LazyContentChoice {
     TopAppBar(
@@ -36,16 +36,16 @@ fun <T> LazyContentTopBar(
                 )
             }
         },
-        navigationIcon = {
+        actions = {
             Icon(
-                painter = painterResource(id = R.drawable.menu),
-                contentDescription = stringResource(id = R.string.label_navigation),
+                painter = painterResource(id = R.drawable.settings),
+                contentDescription = stringResource(id = R.string.label_settings),
                 modifier = Modifier
                     .padding(all = 4.dp)
                     .clickable(
                         enabled = true,
-                        onClick = onNavigateAction,
-                        onClickLabel = stringResource(id = R.string.label_navigation)
+                        onClick = onAction,
+                        onClickLabel = stringResource(id = R.string.label_settings)
                     )
                     .padding(all = 12.dp)
             )
@@ -60,7 +60,7 @@ private fun PreviewLazyContentTopBar() {
     LazyGreetingsTheme {
         LazyContentTopBar(
             currentChoice = LazyContentChoice.Calendar,
-            onNavigateAction = { }
+            onAction = { }
         )
     }
 }
