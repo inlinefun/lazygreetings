@@ -11,7 +11,7 @@ android {
     }
     defaultConfig {
         applicationId = "com.github.inlinefun.lazygreetings"
-        minSdk = 29
+        minSdk = 31
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -52,5 +52,4 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.kotlinx.serialization.core)
-
 }
