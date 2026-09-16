@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyNavDisplay
@@ -18,12 +19,14 @@ import com.github.inlinefun.lazygreetings.composables.screens.content.CalendarCo
 import com.github.inlinefun.lazygreetings.composables.screens.content.GreetingCardsContent
 import com.github.inlinefun.lazygreetings.data.LazyContentChoice
 import com.github.inlinefun.lazygreetings.data.LazyNavRoute
+import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarViewModel
 
 @Composable
 fun ContentScreen(
     navigateTo: (LazyNavRoute) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val calendarViewModel = hiltViewModel<CalendarViewModel>()
     val contentBackStack = rememberNavBackStack(LazyContentChoice.Calendar)
     val currentChoice by remember {
         derivedStateOf(contentBackStack::last)
@@ -57,7 +60,9 @@ fun ContentScreen(
                 .padding(paddingValues),
             entryProvider = entryProvider {
                 entry<LazyContentChoice.Calendar> {
-                    CalendarContent()
+                    CalendarContent(
+                        viewModel = calendarViewModel
+                    )
                 }
                 entry<LazyContentChoice.GreetingCards> {
                     GreetingCardsContent()

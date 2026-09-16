@@ -1,35 +1,33 @@
 package com.github.inlinefun.lazygreetings.composables.screens.content
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.github.inlinefun.lazygreetings.R
-import com.github.inlinefun.lazygreetings.composables.misc.LazyGreetingsTheme
+import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyMonthCalendar
+import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarViewModel
 
 @Composable
 fun CalendarContent(
+    viewModel: CalendarViewModel,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        contentAlignment = Alignment.Center,
+    val yearMonth by viewModel.yearMonth.collectAsState()
+    val days by viewModel.days.collectAsState()
+    val selectedCalendarDay by viewModel.selectedCalendarDay.collectAsState()
+    Column(
         modifier = modifier
             .fillMaxSize()
     ) {
-        Text(
-            text = stringResource(id = R.string.str_not_yet_implemented)
+        LazyMonthCalendar(
+            yearMonth = yearMonth,
+            days = days,
+            selectedCalendarDay = selectedCalendarDay,
+            onDaySelect = viewModel::selectCalendarDay,
+            onLastMonth = viewModel::lastMonth,
+            onNextMonth = viewModel::nextMonth
         )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewCalendarContent() {
-    LazyGreetingsTheme {
-        CalendarContent()
     }
 }
