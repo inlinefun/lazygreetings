@@ -8,10 +8,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +36,8 @@ import com.github.inlinefun.lazygreetings.composables.components.common.LazyIcon
 import com.github.inlinefun.lazygreetings.composables.misc.LazyGreetingsTheme
 import com.github.inlinefun.lazygreetings.data.asCalendarDay
 import com.github.inlinefun.lazygreetings.data.calendar.LazyCalendarDay
-import com.github.inlinefun.lazygreetings.data.calendar.LazyCalendarMonths
+import com.github.inlinefun.lazygreetings.data.calendar.LazyCalendarDayOfWeek
+import com.github.inlinefun.lazygreetings.data.calendar.LazyCalendarMonthOfYear
 import com.github.inlinefun.lazygreetings.data.generateCalendarGrid
 import java.time.LocalDate
 import java.time.YearMonth
@@ -55,12 +60,52 @@ fun LazyMonthCalendar(
         LazyCalendarTopBar(
             onLastMonth = onLastMonth,
             onNextMonth = onNextMonth,
-            month = LazyCalendarMonths.entries[yearMonth.month.value - 1]
+            month = LazyCalendarMonthOfYear.entries[yearMonth.month.value - 1]
         )
         LazyCalendarGrid(
             days = days,
             selectedCalendarDay = selectedCalendarDay,
             onDaySelect = onDaySelect
+        )
+    }
+}
+
+@Composable
+private fun LazyCalendarTopBar(
+    month: LazyCalendarMonthOfYear,
+    onLastMonth: () -> Unit,
+    onNextMonth: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 8.dp)
+    ) {
+        LazyIconButton(
+            icon = R.drawable.chevron_left,
+            onClick = onLastMonth
+        )
+        Text(
+            text = stringResource(id = month.label),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .weight(1.0f)
+        )
+        LazyIconButton(
+            icon = R.drawable.chevron_right,
+            onClick = onNextMonth
+        )
+    }
+}
+
+private fun LazyGridScope.drawDaysOfWeekStrip() {
+    items(
+        items = LazyCalendarDayOfWeek.entries.toTypedArray()
+    ) { dayOfWeek ->
+        Text(
+            text = stringResource(dayOfWeek.label).substring(0, 3),
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -76,6 +121,12 @@ private fun LazyCalendarGrid(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        this.drawDaysOfWeekStrip()
+        item(
+            span = { GridItemSpan(currentLineSpan = 7) }
+        ) {
+            Spacer(Modifier.height(16.dp))
+        }
         items(items = days) { day ->
             val focused = selectedCalendarDay == day
 
@@ -130,35 +181,6 @@ private fun LazyCalendarGrid(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun LazyCalendarTopBar(
-    month: LazyCalendarMonths,
-    onLastMonth: () -> Unit,
-    onNextMonth: () -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 8.dp)
-    ) {
-        LazyIconButton(
-            icon = R.drawable.chevron_left,
-            onClick = onLastMonth
-        )
-        Text(
-            text = stringResource(id = month.label),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .weight(1.0f)
-        )
-        LazyIconButton(
-            icon = R.drawable.chevron_right,
-            onClick = onNextMonth
-        )
     }
 }
 

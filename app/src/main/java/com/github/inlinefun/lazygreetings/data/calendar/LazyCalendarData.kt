@@ -10,7 +10,7 @@ data class LazyCalendarDay(
     val isToday: Boolean
 )
 
-enum class LazyCalendarMonths(
+enum class LazyCalendarMonthOfYear(
     @field:StringRes
     val label: Int
 ) {
@@ -28,7 +28,7 @@ enum class LazyCalendarMonths(
     DECEMBER(label = R.string.month_december);
 }
 
-enum class LazyCalendarDays(
+enum class LazyCalendarDayOfWeek(
     @field:StringRes
     val label: Int
 ) {
