@@ -141,6 +141,7 @@ private fun LazyCalendarGrid(
             val backgroundColor by animateColorAsState(
                 targetValue = when {
                     focused -> MaterialTheme.colorScheme.primary
+                    day.isToday -> MaterialTheme.colorScheme.surfaceVariant
                     else -> Color.Transparent
                 }
             )
@@ -164,7 +165,7 @@ private fun LazyCalendarGrid(
                     .clip(shape)
                     .background(color = backgroundColor)
                     .border(
-                        width = 2.dp,
+                        width = 1.dp,
                         color = borderColor,
                         shape = shape
                     )
