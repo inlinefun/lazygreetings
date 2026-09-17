@@ -128,7 +128,7 @@ private fun LazyCalendarGrid(
             Spacer(Modifier.height(16.dp))
         }
         items(items = days) { day ->
-            val focused = selectedCalendarDay == day
+            val focused = selectedCalendarDay.date == day.date
 
             val shapeRadius by animateIntAsState(targetValue = if (focused) 50 else 25)
             val borderColor by animateColorAsState(
@@ -147,11 +147,10 @@ private fun LazyCalendarGrid(
             )
             val textColor by animateColorAsState(
                 targetValue = when {
+                    focused -> MaterialTheme.colorScheme.onPrimary
                     !day.isCurrentMonth -> MaterialTheme.colorScheme.onSurfaceVariant.copy(
                         alpha = 0.8f
                     )
-
-                    focused -> MaterialTheme.colorScheme.onPrimary
                     else -> MaterialTheme.colorScheme.onSurface
                 }
             )
