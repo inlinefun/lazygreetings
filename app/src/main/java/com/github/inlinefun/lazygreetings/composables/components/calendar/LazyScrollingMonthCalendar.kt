@@ -122,14 +122,16 @@ private fun LazyCalendarGrid(
             )
             val backgroundColor by animateColorAsState(
                 targetValue = when {
-                    focused -> MaterialTheme.colorScheme.primary
+                    focused && day.isCurrentMonth -> MaterialTheme.colorScheme.primary
+                    focused && !day.isCurrentMonth -> MaterialTheme.colorScheme.primaryContainer
                     day.isToday -> MaterialTheme.colorScheme.surfaceVariant
                     else -> Color.Transparent
                 }
             )
             val textColor by animateColorAsState(
                 targetValue = when {
-                    focused -> MaterialTheme.colorScheme.onPrimary
+                    focused && day.isCurrentMonth -> MaterialTheme.colorScheme.onPrimary
+                    focused && !day.isCurrentMonth -> MaterialTheme.colorScheme.onPrimaryContainer
                     !day.isCurrentMonth -> MaterialTheme.colorScheme.onSurfaceVariant.copy(
                         alpha = 0.8f
                     )
