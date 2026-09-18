@@ -24,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +40,8 @@ import com.github.inlinefun.lazygreetings.data.asCalendarDay
 import com.github.inlinefun.lazygreetings.data.calendar.LazyCalendarDay
 import com.github.inlinefun.lazygreetings.data.calendar.LazyCalendarDayOfWeek
 import com.github.inlinefun.lazygreetings.data.generateCalendarGrid
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -65,19 +69,32 @@ fun LazyScrollingMonthCalendar(
     }
     HorizontalPager(
         state = pagerState,
-        beyondViewportPageCount = 2,
+        beyondViewportPageCount = 1,
         verticalAlignment = Alignment.Top,
         modifier = modifier
             .fillMaxWidth()
             .padding(all = 8.dp)
     ) { page ->
         val pageOffset = (page - DEFAULT_CALENDAR_MONTH_PAGE).toLong()
-        val yearMonth = yearMonth.plusMonths(pageOffset)
-        LazyCalendarGrid(
-            days = yearMonth.generateCalendarGrid(),
-            selectedCalendarDay = selectedCalendarDay,
-            onDaySelect = onDaySelect
-        )
+        val yearMonth = remember(pageOffset, yearMonth) {
+            yearMonth.plusMonths(pageOffset)
+        }
+        val days by produceState<List<LazyCalendarDay>?>(
+            initialValue = null,
+            key1 = yearMonth
+        ) {
+            value = withContext(Dispatchers.Default) {
+                yearMonth.generateCalendarGrid()
+            }
+        }
+
+        days?.let {
+            LazyCalendarGrid(
+                days = it,
+                selectedCalendarDay = selectedCalendarDay,
+                onDaySelect = onDaySelect
+            )
+        }
     }
 }
 
@@ -100,6 +117,7 @@ private fun LazyCalendarGrid(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = 7),
+        userScrollEnabled = false,
         modifier = Modifier
             .fillMaxWidth()
     ) {
@@ -109,7 +127,10 @@ private fun LazyCalendarGrid(
         ) {
             Spacer(Modifier.height(16.dp))
         }
-        items(items = days) { day ->
+        items(
+            items = days,
+            key = { it.date }
+        ) { day ->
             val focused = selectedCalendarDay.date == day.date
 
             val shapeRadius by animateIntAsState(targetValue = if (focused) 50 else 25)
