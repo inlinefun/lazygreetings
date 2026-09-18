@@ -15,7 +15,7 @@ import java.time.YearMonth
 class CalendarViewModel @Inject constructor() : ViewModel() {
 
     private val _yearMonth = MutableStateFlow(value = YearMonth.now())
-    private val _days = MutableStateFlow<List<LazyCalendarDay>>(value = emptyList())
+    private val _calendarPageOffset = MutableStateFlow(value = 1)
 
     // false data, gets init anyway, so it's "probably" fine
     private val _selectedCalendarDay = MutableStateFlow(
@@ -27,17 +27,21 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
     )
 
     val yearMonth = _yearMonth.asStateFlow()
-    val days = _days.asStateFlow()
     val selectedCalendarDay = _selectedCalendarDay.asStateFlow()
+    val calendarPageOffset = _calendarPageOffset.asStateFlow()
 
     init {
         YearMonth.now()
             .let { yearMonth ->
-                yearMonth.updateCalendar()
+                _yearMonth.value = yearMonth
                 _selectedCalendarDay.value = LocalDate
                     .now()
                     .asCalendarDay(yearMonth)
             }
+    }
+
+    fun updateCalendarPageOffset(offset: Int) {
+        _calendarPageOffset.value = offset
     }
 
     fun selectCalendarDay(day: LazyCalendarDay) {
@@ -48,23 +52,6 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
         } else {
             _selectedCalendarDay.value = day
         }
-    }
-
-    fun nextMonth() {
-        yearMonth.value
-            .plusMonths(1)
-            .updateCalendar()
-    }
-
-    fun lastMonth() {
-        yearMonth.value
-            .minusMonths(1)
-            .updateCalendar()
-    }
-
-    private fun YearMonth.updateCalendar() {
-        _yearMonth.value = this@updateCalendar
-        _days.value = this@updateCalendar.generateCalendarGrid()
     }
 
 }

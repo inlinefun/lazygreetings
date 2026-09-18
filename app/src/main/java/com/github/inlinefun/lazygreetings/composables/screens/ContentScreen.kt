@@ -3,6 +3,7 @@ package com.github.inlinefun.lazygreetings.composables.screens
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -31,6 +32,7 @@ fun ContentScreen(
     val currentChoice by remember {
         derivedStateOf(contentBackStack::last)
     }
+    val calendarPageOffset by calendarViewModel.calendarPageOffset.collectAsState()
     Scaffold(
         topBar = {
             LazyContentTopBar(
