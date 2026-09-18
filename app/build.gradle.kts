@@ -9,7 +9,9 @@ plugins {
 android {
     namespace = "com.github.inlinefun.lazygreetings"
     compileSdk {
-        version = release(37)
+        version = release(37) {
+            minorApiLevel = 1
+        }
     }
     defaultConfig {
         applicationId = "com.github.inlinefun.lazygreetings"
