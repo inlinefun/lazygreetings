@@ -1,10 +1,11 @@
 [versions]
 agp = "9.3.3"
-androidx-core = "1.19.0"
-androidx-lifecycle-runtime = "2.11.0"
 androidx-activity = "1.13.0"
-kotlin = "2.4.20"
+androidx-lifecycle = "2.11.0"
 androidx-compose-bom = "2026.09.00"
+androidx-core = "1.19.0"
+androidx-core-splashscreen = "1.2.0"
+kotlin = "2.4.20"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
@@ -15,7 +16,8 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-core-splashscreen" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
