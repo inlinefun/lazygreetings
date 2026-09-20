@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - main
+      - rewrite
+  pull_request:
+    branches:
+      - main
+      - rewrite
+
+concurrency:
+  cancel-in-progress: true
+  group: build-${{ github.ref }}
+
+jobs:
+  assemble_debug:
+    name: Build debug variant
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Build with gradle
+        run: ./gradlew assembleDebug
