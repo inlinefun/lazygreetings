@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LazyGreetings</string>
+
+    <string name="label_calendar">Calendar</string>
+    <string name="label_settings">Settings</string>
+    <string name="label_back">Back</string>
+    <string name="label_more">More</string>
+
+    <string name="str_not_implemented">Feature is not yet implemented</string>
 </resources>
