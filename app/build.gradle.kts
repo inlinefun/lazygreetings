@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.dagger.hilt.android)
+    alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -50,10 +52,14 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.navigation.runtime)
     implementation(libs.androidx.navigation.ui)
+
+    implementation(libs.google.dagger.hilt.android)
+    ksp(libs.google.dagger.hilt.android.compiler)
 
     implementation(libs.kotlinx.serialization.core)
 }
