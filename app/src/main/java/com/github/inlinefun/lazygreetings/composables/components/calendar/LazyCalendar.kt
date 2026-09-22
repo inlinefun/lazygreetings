@@ -90,7 +90,8 @@ fun LazyCalendar(
         )
         HorizontalPager(
             state = pagerState,
-            beyondViewportPageCount = 2
+            beyondViewportPageCount = 2,
+            pageSpacing = 32.dp
         ) { pageOffset ->
             val monthsToAdd = pageOffset - DEFAULT_CALENDAR_MONTH_OFFSET
             val currentMonth = startMonth.plusMonths(monthsToAdd.toLong())
