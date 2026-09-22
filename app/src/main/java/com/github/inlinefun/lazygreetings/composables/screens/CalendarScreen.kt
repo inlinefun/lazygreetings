@@ -1,7 +1,11 @@
 package com.github.inlinefun.lazygreetings.composables.screens
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -13,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -85,25 +88,59 @@ private fun CalendarContent(
         topBar = {
             LazyCalendarAppbar(
                 title = {
-                    val month = CalendarMonthOfYear
-                        .entries[currentMonth.month.value - 1]
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(space = 6.dp)
-                    ) {
+                    Row {
                         AnimatedContent(
-                            targetState = month.label
-                        ) {
+                            targetState = currentMonth,
+                            transitionSpec = {
+                                val isForward = targetState > initialState
+                                val enterTransition = if (isForward) {
+                                    slideInVertically { it } + fadeIn()
+                                } else {
+                                    slideInVertically { -it } + fadeIn()
+                                }
+                                val exitTransition = if (isForward) {
+                                    slideOutVertically { -it } + fadeOut()
+                                } else {
+                                    slideOutVertically { it } + fadeOut()
+                                }
+                                enterTransition togetherWith exitTransition
+                            }
+                        ) { yearMonth ->
+                            val month = CalendarMonthOfYear
+                                .entries[yearMonth.month.value - 1]
                             Text(
-                                text = stringResource(id = it)
+                                text = stringResource(id = month.label)
                             )
                         }
-                        AnimatedContent(
-                            targetState = currentMonth.year
-                        ) {
-                            Text(
-                                text = it.toString()
-                            )
-                        }
+                        Text(
+                            text = " "
+                        )
+                        currentMonth
+                            .year
+                            .toString()
+                            .forEach { char ->
+                                AnimatedContent(
+                                    targetState = char,
+                                    transitionSpec = {
+                                        val isForward = targetState > initialState
+                                        val enterTransition = if (isForward) {
+                                            slideInVertically { it } + fadeIn()
+                                        } else {
+                                            slideInVertically { -it } + fadeIn()
+                                        }
+                                        val exitTransition = if (isForward) {
+                                            slideOutVertically { -it } + fadeOut()
+                                        } else {
+                                            slideOutVertically { it } + fadeOut()
+                                        }
+                                        enterTransition togetherWith exitTransition
+                                    }
+                                ) {
+                                    Text(
+                                        text = "$it"
+                                    )
+                                }
+                            }
                     }
                 },
                 navigateTo = navigateTo
