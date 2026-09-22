@@ -38,9 +38,10 @@ fun CalendarScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val startingMonth = calendarViewModel.startingMonth
     val today by calendarViewModel.today.collectAsStateWithLifecycle()
-    val currentMonth by calendarViewModel.currentMonth.collectAsStateWithLifecycle()
     val currentMonthOffset by calendarViewModel.currentMonthOffset.collectAsStateWithLifecycle()
+    val currentMonth by calendarViewModel.currentMonth.collectAsStateWithLifecycle()
     val selectedDate by calendarViewModel.selectedDate.collectAsStateWithLifecycle()
 
     DisposableEffect(key1 = lifecycleOwner) {
@@ -56,6 +57,7 @@ fun CalendarScreen(
     }
 
     CalendarContent(
+        startingMonth = startingMonth,
         currentMonth = currentMonth,
         selectedDate = selectedDate,
         navigateTo = navigateTo,
@@ -72,6 +74,7 @@ private fun CalendarContent(
     today: LocalDate,
     selectedDate: LocalDate,
     currentMonthOffset: Int,
+    startingMonth: YearMonth,
     currentMonth: YearMonth,
     updateMonthOffset: (Int) -> Unit,
     onDaySelect: (LocalDate) -> Unit,
@@ -122,7 +125,7 @@ private fun CalendarContent(
             LazyCalendar(
                 today = today,
                 selectedDate = selectedDate,
-                currentMonth = currentMonth,
+                startMonth = startingMonth,
                 currentMonthOffset = currentMonthOffset,
                 updateMonthOffset = updateMonthOffset,
                 onDaySelect = onDaySelect,
@@ -140,6 +143,7 @@ private fun PreviewScreen() {
         CalendarContent(
             navigateTo = { },
             currentMonth = month,
+            startingMonth = month,
             today = day,
             selectedDate = day,
             currentMonthOffset = DEFAULT_CALENDAR_MONTH_OFFSET,

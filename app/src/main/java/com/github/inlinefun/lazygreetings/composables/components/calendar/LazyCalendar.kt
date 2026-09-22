@@ -46,7 +46,7 @@ import java.time.YearMonth
 fun LazyCalendar(
     today: LocalDate,
     selectedDate: LocalDate,
-    currentMonth: YearMonth,
+    startMonth: YearMonth,
     currentMonthOffset: Int,
     updateMonthOffset: (Int) -> Unit,
     onDaySelect: (LocalDate) -> Unit,
@@ -72,7 +72,7 @@ fun LazyCalendar(
             beyondViewportPageCount = 2
         ) { pageOffset ->
             val monthsToAdd = pageOffset - DEFAULT_CALENDAR_MONTH_OFFSET
-            val currentMonth = currentMonth.plusMonths(monthsToAdd.toLong())
+            val currentMonth = startMonth.plusMonths(monthsToAdd.toLong())
             val daysOfMonth by produceState<List<CalendarDay>?>(
                 initialValue = null,
                 key1 = currentMonth,
@@ -209,7 +209,7 @@ private fun PreviewComponent() {
         LazyCalendar(
             modifier = Modifier,
             onDaySelect = { },
-            currentMonth = month,
+            startMonth = month,
             currentMonthOffset = DEFAULT_CALENDAR_MONTH_OFFSET,
             updateMonthOffset = { },
             today = date,
