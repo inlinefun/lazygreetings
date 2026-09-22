@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -24,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.inlinefun.lazygreetings.R
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
 import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyCalendar
+import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyCalendarEvents
 import com.github.inlinefun.lazygreetings.composables.components.common.LazyFloatingActionButton
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyCalendarAppbar
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarMonthOfYear
@@ -165,6 +167,7 @@ private fun CalendarContent(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
+                .padding(all = 8.dp)
         ) {
             LazyCalendar(
                 today = today,
@@ -174,6 +177,7 @@ private fun CalendarContent(
                 updateMonthOffset = updateMonthOffset,
                 onDaySelect = onDaySelect,
             )
+            LazyCalendarEvents()
         }
     }
 }

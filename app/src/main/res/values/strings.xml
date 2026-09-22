@@ -6,6 +6,7 @@
     <string name="label_back">Back</string>
     <string name="label_more">More</string>
     <string name="label_add_event">Add Event</string>
+    <string name="planned_events">Planned events</string>
 
     <string name="month_january">January</string>
     <string name="month_february">February</string>

@@ -66,7 +66,6 @@ fun LazyCalendar(
     }
     Column(
         modifier = modifier
-            .padding(all = 8.dp)
     ) {
         Row(
             modifier = Modifier
