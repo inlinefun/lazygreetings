@@ -23,7 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,21 +73,24 @@ fun LazyCalendar(
         ) { pageOffset ->
             val monthsToAdd = pageOffset - DEFAULT_CALENDAR_MONTH_OFFSET
             val currentMonth = currentMonth.plusMonths(monthsToAdd.toLong())
-            val daysOfMonth = remember(
+            val daysOfMonth by produceState<List<CalendarDay>?>(
+                initialValue = null,
                 key1 = currentMonth,
                 key2 = selectedDate,
                 key3 = today
             ) {
-                generateCalendarDays(
+                value = generateCalendarDays(
                     month = currentMonth,
                     selected = selectedDate,
                     today = today
                 )
             }
-            CalendarGrid(
-                days = daysOfMonth,
-                onDaySelect = onDaySelect
-            )
+            daysOfMonth?.let { days ->
+                CalendarGrid(
+                    days = days,
+                    onDaySelect = onDaySelect
+                )
+            }
         }
     }
 }
