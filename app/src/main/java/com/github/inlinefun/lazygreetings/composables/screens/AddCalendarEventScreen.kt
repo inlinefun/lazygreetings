@@ -13,12 +13,12 @@ import com.github.inlinefun.lazygreetings.data.navigation.AddCalendarEventData
 import java.time.LocalDate
 
 @Composable
-fun AddEventScreen(
+fun AddCalendarEventScreen(
     data: AddCalendarEventData,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AddEventContent(
+    AddCalendarEventScreenContent(
         data = data,
         onBack = onBack,
         modifier = modifier
@@ -26,7 +26,7 @@ fun AddEventScreen(
 }
 
 @Composable
-private fun AddEventContent(
+private fun AddCalendarEventScreenContent(
     data: AddCalendarEventData,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -35,6 +35,7 @@ private fun AddEventContent(
         topBar = {
             LazyTopAppbar(
                 title = R.string.label_add_event,
+                icon = R.drawable.close,
                 onBack = onBack
             )
         },
@@ -52,7 +53,7 @@ private fun AddEventContent(
 private fun PreviewContent() {
     val today = LocalDate.now()
     LazyGreetingsTheme {
-        AddEventContent(
+        AddCalendarEventScreenContent(
             data = AddCalendarEventData(
                 date = today.toEpochDay()
             ),

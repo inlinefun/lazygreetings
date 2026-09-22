@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygreetings.composables.components.navigation
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,9 @@ fun LazyTopAppbar(
     @StringRes
     title: Int,
     onBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    @DrawableRes
+    icon: Int = R.drawable.arrow_back,
 ) = TopAppBar(
     modifier = modifier,
     title = {
@@ -32,7 +35,7 @@ fun LazyTopAppbar(
     },
     navigationIcon = {
         Icon(
-            painter = painterResource(id = R.drawable.arrow_back),
+            painter = painterResource(id = icon),
             contentDescription = stringResource(id = R.string.label_back),
             modifier = Modifier
                 .padding(all = 4.dp)
@@ -52,6 +55,7 @@ private fun PreviewComponent() {
     LazyGreetingsTheme {
         LazyTopAppbar(
             title = R.string.label_settings,
+            icon = R.drawable.arrow_back,
             onBack = { }
         )
     }
