@@ -7,12 +7,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -54,7 +55,7 @@ fun LazyCalendar(
 ) {
     val pagerState = rememberPagerState(
         initialPage = currentMonthOffset,
-        pageCount = { TOTAL_CALENDAR_MONTHS }
+        pageCount = { TOTAL_CALENDAR_MONTHS },
     )
     LaunchedEffect(pagerState) {
         snapshotFlow(
@@ -67,6 +68,26 @@ fun LazyCalendar(
         modifier = modifier
             .padding(all = 8.dp)
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            CalendarDayOfWeek.entries
+                .toTypedArray()
+                .forEach { calendarDayOfWeek ->
+                    Text(
+                        text = stringResource(id = calendarDayOfWeek.label)
+                            .substring(0..2),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+                }
+        }
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+        )
         HorizontalPager(
             state = pagerState,
             beyondViewportPageCount = 2
@@ -105,22 +126,6 @@ private fun CalendarGrid(
         columns = GridCells.Fixed(count = 7),
         modifier = modifier
     ) {
-        // weekdays
-        items(
-            items = CalendarDayOfWeek.entries.toTypedArray()
-        ) { dayOfWeek ->
-            Text(
-                text = stringResource(id = dayOfWeek.label).substring(0..2),
-                textAlign = TextAlign.Center
-            )
-        }
-        // spacer
-        item(
-            span = { GridItemSpan(currentLineSpan = 7) }
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        // days of month
         items(
             items = days,
         ) { day ->
