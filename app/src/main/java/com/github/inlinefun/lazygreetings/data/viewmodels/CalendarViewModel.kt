@@ -18,6 +18,9 @@ import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 import java.time.YearMonth
 
+const val TOTAL_CALENDAR_MONTHS = (12 * 20 * 2) + 1
+const val DEFAULT_CALENDAR_MONTH_OFFSET = (TOTAL_CALENDAR_MONTHS / 2) + 1
+
 @HiltViewModel
 class CalendarViewModel @Inject constructor() : ViewModel() {
 
@@ -25,8 +28,12 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
     private val _selectedDate = MutableStateFlow(value = LocalDate.now())
     private val _currentMonth = MutableStateFlow(value = YearMonth.now())
 
+    private val _currentMonthOffset = MutableStateFlow(value = DEFAULT_CALENDAR_MONTH_OFFSET)
+
+    val today = _today.asStateFlow()
     val selectedDate = _selectedDate.asStateFlow()
     val currentMonth = _currentMonth.asStateFlow()
+    val currentMonthOffset = _currentMonthOffset.asStateFlow()
     val calendarDays: StateFlow<List<CalendarDay>> = combine(
         flow = _currentMonth,
         flow2 = _selectedDate,
@@ -51,12 +58,18 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun updateSelectedDate(day: CalendarDay) {
+    fun updateCurrentMonthOffset(offset: Int) {
+        _currentMonthOffset.update {
+            offset
+        }
+    }
+
+    fun updateSelectedDate(day: LocalDate) {
         _selectedDate.update {
-            if (it.isEqual(day.date)) {
+            if (it.isEqual(day)) {
                 _today.value
             } else {
-                day.date
+                day
             }
         }
     }

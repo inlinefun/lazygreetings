@@ -15,11 +15,16 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,33 +36,66 @@ import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarDay
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarDayOfWeek
+import com.github.inlinefun.lazygreetings.data.viewmodels.DEFAULT_CALENDAR_MONTH_OFFSET
+import com.github.inlinefun.lazygreetings.data.viewmodels.TOTAL_CALENDAR_MONTHS
 import com.github.inlinefun.lazygreetings.util.calendar.generateCalendarDays
 import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
 fun LazyCalendar(
-    days: List<CalendarDay>,
-    onLastMonth: () -> Unit,
-    onNextMonth: () -> Unit,
-    onDaySelect: (CalendarDay) -> Unit,
+    today: LocalDate,
+    selectedDate: LocalDate,
+    currentMonth: YearMonth,
+    currentMonthOffset: Int,
+    updateMonthOffset: (Int) -> Unit,
+    onDaySelect: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val pagerState = rememberPagerState(
+        initialPage = currentMonthOffset,
+        pageCount = { TOTAL_CALENDAR_MONTHS }
+    )
+    LaunchedEffect(pagerState) {
+        snapshotFlow(
+            block = pagerState::currentPage
+        ).collect(
+            collector = updateMonthOffset
+        )
+    }
     Column(
         modifier = modifier
             .padding(all = 8.dp)
     ) {
-        CalendarGrid(
-            days = days,
-            onDaySelect = onDaySelect
-        )
+        HorizontalPager(
+            state = pagerState,
+            beyondViewportPageCount = 2
+        ) { pageOffset ->
+            val monthsToAdd = pageOffset - DEFAULT_CALENDAR_MONTH_OFFSET
+            val currentMonth = currentMonth.plusMonths(monthsToAdd.toLong())
+            val daysOfMonth = remember(
+                key1 = currentMonth,
+                key2 = selectedDate,
+                key3 = today
+            ) {
+                generateCalendarDays(
+                    month = currentMonth,
+                    selected = selectedDate,
+                    today = today
+                )
+            }
+            CalendarGrid(
+                days = daysOfMonth,
+                onDaySelect = onDaySelect
+            )
+        }
     }
 }
 
 @Composable
 private fun CalendarGrid(
     days: List<CalendarDay>,
-    onDaySelect: (CalendarDay) -> Unit,
+    onDaySelect: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -86,7 +124,7 @@ private fun CalendarGrid(
             CalendarDayCell(
                 day = day,
                 onClick = {
-                    onDaySelect(day)
+                    onDaySelect(day.date)
                 }
             )
         }
@@ -159,20 +197,17 @@ private fun CalendarDayCell(
 )
 @Composable
 private fun PreviewComponent() {
-    val day = LocalDate.now()
+    val date = LocalDate.now()
     val month = YearMonth.now()
-    val days = generateCalendarDays(
-        month = month,
-        selected = day,
-        today = day
-    )
     LazyGreetingsTheme {
         LazyCalendar(
-            days = days,
-            onLastMonth = { },
-            onNextMonth = { },
             modifier = Modifier,
-            onDaySelect = { }
+            onDaySelect = { },
+            currentMonth = month,
+            currentMonthOffset = DEFAULT_CALENDAR_MONTH_OFFSET,
+            updateMonthOffset = { },
+            today = date,
+            selectedDate = date
         )
     }
 }

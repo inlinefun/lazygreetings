@@ -23,11 +23,10 @@ import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
 import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyCalendar
 import com.github.inlinefun.lazygreetings.composables.components.common.LazyFloatingActionButton
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyCalendarAppbar
-import com.github.inlinefun.lazygreetings.data.calendar.CalendarDay
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarMonthOfYear
 import com.github.inlinefun.lazygreetings.data.navigation.LazyNavRoute
 import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarViewModel
-import com.github.inlinefun.lazygreetings.util.calendar.generateCalendarDays
+import com.github.inlinefun.lazygreetings.data.viewmodels.DEFAULT_CALENDAR_MONTH_OFFSET
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -39,9 +38,10 @@ fun CalendarScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val today by calendarViewModel.today.collectAsStateWithLifecycle()
     val currentMonth by calendarViewModel.currentMonth.collectAsStateWithLifecycle()
+    val currentMonthOffset by calendarViewModel.currentMonthOffset.collectAsStateWithLifecycle()
     val selectedDate by calendarViewModel.selectedDate.collectAsStateWithLifecycle()
-    val calendarDays by calendarViewModel.calendarDays.collectAsStateWithLifecycle()
 
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -56,12 +56,12 @@ fun CalendarScreen(
     }
 
     CalendarContent(
-        days = calendarDays,
         currentMonth = currentMonth,
         selectedDate = selectedDate,
         navigateTo = navigateTo,
-        onLastMonth = calendarViewModel::lastMonth,
-        onNextMonth = calendarViewModel::nextMonth,
+        today = today,
+        currentMonthOffset = currentMonthOffset,
+        updateMonthOffset = calendarViewModel::updateCurrentMonthOffset,
         onDaySelect = calendarViewModel::updateSelectedDate,
         modifier = modifier
     )
@@ -69,13 +69,13 @@ fun CalendarScreen(
 
 @Composable
 private fun CalendarContent(
-    days: List<CalendarDay>,
-    currentMonth: YearMonth,
+    today: LocalDate,
     selectedDate: LocalDate,
+    currentMonthOffset: Int,
+    currentMonth: YearMonth,
+    updateMonthOffset: (Int) -> Unit,
+    onDaySelect: (LocalDate) -> Unit,
     navigateTo: (LazyNavRoute) -> Unit,
-    onLastMonth: () -> Unit,
-    onNextMonth: () -> Unit,
-    onDaySelect: (CalendarDay) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -120,9 +120,11 @@ private fun CalendarContent(
                 .padding(paddingValues)
         ) {
             LazyCalendar(
-                onLastMonth = onLastMonth,
-                onNextMonth = onNextMonth,
-                days = days,
+                today = today,
+                selectedDate = selectedDate,
+                currentMonth = currentMonth,
+                currentMonthOffset = currentMonthOffset,
+                updateMonthOffset = updateMonthOffset,
                 onDaySelect = onDaySelect,
             )
         }
@@ -134,20 +136,15 @@ private fun CalendarContent(
 private fun PreviewScreen() {
     val month = YearMonth.now()
     val day = LocalDate.now()
-    val days = generateCalendarDays(
-        month = month,
-        selected = day,
-        today = day
-    )
     LazyGreetingsTheme {
         CalendarContent(
-            days = days,
             navigateTo = { },
             currentMonth = month,
+            today = day,
             selectedDate = day,
-            onLastMonth = { },
-            onNextMonth = { },
-            onDaySelect = { }
+            currentMonthOffset = DEFAULT_CALENDAR_MONTH_OFFSET,
+            updateMonthOffset = { },
+            onDaySelect = { },
         )
     }
 }
