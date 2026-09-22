@@ -148,6 +148,7 @@ private fun CalendarDayCell(
     )
     val textColor by animateColorAsState(
         targetValue = when {
+            day.isSelected && !day.isCurrentMonth -> MaterialTheme.colorScheme.onPrimaryContainer
             day.isSelected -> MaterialTheme.colorScheme.onPrimary
             day.isToday -> MaterialTheme.colorScheme.primary
             !day.isCurrentMonth -> MaterialTheme.colorScheme.onSurfaceVariant
@@ -156,6 +157,7 @@ private fun CalendarDayCell(
     )
     val background by animateColorAsState(
         targetValue = when {
+            day.isSelected && !day.isCurrentMonth -> MaterialTheme.colorScheme.primaryContainer
             day.isSelected -> MaterialTheme.colorScheme.primary
             day.isToday -> MaterialTheme.colorScheme.surfaceVariant
             else -> Color.Transparent
@@ -163,6 +165,7 @@ private fun CalendarDayCell(
     )
     val borderColor by animateColorAsState(
         targetValue = when {
+            day.isSelected && !day.isCurrentMonth -> MaterialTheme.colorScheme.primaryContainer
             day.isSelected -> MaterialTheme.colorScheme.primary
             day.isToday -> MaterialTheme.colorScheme.primary
             else -> Color.Transparent
