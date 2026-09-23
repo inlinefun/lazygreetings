@@ -56,9 +56,8 @@ fun LazyNavigationHost(
                         entryTransition togetherWith exitTransition
                     }
                 },
-            ) { route ->
+            ) {
                 AddCalendarEventScreen(
-                    data = route.data,
                     onBack = backStack::removeLastOrNull
                 )
             }

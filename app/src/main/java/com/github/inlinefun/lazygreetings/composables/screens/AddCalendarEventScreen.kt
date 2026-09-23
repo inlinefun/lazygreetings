@@ -9,17 +9,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.github.inlinefun.lazygreetings.R
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyTopAppbar
-import com.github.inlinefun.lazygreetings.data.navigation.AddCalendarEventData
-import java.time.LocalDate
 
 @Composable
 fun AddCalendarEventScreen(
-    data: AddCalendarEventData,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AddCalendarEventScreenContent(
-        data = data,
         onBack = onBack,
         modifier = modifier
     )
@@ -27,7 +23,6 @@ fun AddCalendarEventScreen(
 
 @Composable
 private fun AddCalendarEventScreenContent(
-    data: AddCalendarEventData,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -51,12 +46,8 @@ private fun AddCalendarEventScreenContent(
 @Preview
 @Composable
 private fun PreviewContent() {
-    val today = LocalDate.now()
     LazyGreetingsTheme {
         AddCalendarEventScreenContent(
-            data = AddCalendarEventData(
-                date = today.toEpochDay()
-            ),
             onBack = { },
             modifier = Modifier
         )

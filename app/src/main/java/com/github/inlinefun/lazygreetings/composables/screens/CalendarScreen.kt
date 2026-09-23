@@ -25,7 +25,6 @@ import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyCa
 import com.github.inlinefun.lazygreetings.composables.components.common.LazyFloatingActionButton
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyCalendarAppbar
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarMonthOfYear
-import com.github.inlinefun.lazygreetings.data.navigation.AddCalendarEventData
 import com.github.inlinefun.lazygreetings.data.navigation.LazyNavRoute
 import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarViewModel
 import com.github.inlinefun.lazygreetings.data.viewmodels.DEFAULT_CALENDAR_MONTH_OFFSET
@@ -135,13 +134,8 @@ private fun CalendarContent(
             LazyFloatingActionButton(
                 icon = R.drawable.add,
                 onClick = {
-                    val dateInEpochTime = selectedDate.toEpochDay()
                     navigateTo(
-                        LazyNavRoute.AddCalendarEvent(
-                            data = AddCalendarEventData(
-                                date = dateInEpochTime
-                            )
-                        )
+                        LazyNavRoute.AddCalendarEvent
                     )
                 }
             )

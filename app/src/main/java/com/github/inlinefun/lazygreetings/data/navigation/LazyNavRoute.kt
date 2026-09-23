@@ -8,9 +8,7 @@ sealed interface LazyNavRoute : NavKey {
     data object Calendar : LazyNavRoute
 
     @Serializable
-    data class AddCalendarEvent(
-        val data: AddCalendarEventData
-    ) : LazyNavRoute
+    data object AddCalendarEvent : LazyNavRoute
 
     @Serializable
     data object Settings : LazyNavRoute
