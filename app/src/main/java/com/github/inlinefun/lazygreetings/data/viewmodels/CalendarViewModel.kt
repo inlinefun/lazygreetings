@@ -26,7 +26,6 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
     private val _selectedDate = MutableStateFlow(value = LocalDate.now())
 
     private val _currentMonthOffset = MutableStateFlow(value = DEFAULT_CALENDAR_MONTH_OFFSET)
-    private val _currentMonth = MutableStateFlow(value = YearMonth.now())
 
     val today = _today.asStateFlow()
     val selectedDate = _selectedDate.asStateFlow()
@@ -46,15 +45,6 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
             initialValue = YearMonth.now()
         )
 
-    fun refreshData() {
-        if (_currentMonth.value == YearMonth.now()) {
-            return
-        }
-        _currentMonth.update {
-            YearMonth.now()
-        }
-    }
-
     fun updateCurrentMonthOffset(offset: Int) {
         _currentMonthOffset.update {
             offset
@@ -68,18 +58,6 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
             } else {
                 day
             }
-        }
-    }
-
-    fun lastMonth() {
-        _currentMonth.update { month ->
-            month.minusMonths(1)
-        }
-    }
-
-    fun nextMonth() {
-        _currentMonth.update { month ->
-            month.plusMonths(1)
         }
     }
 

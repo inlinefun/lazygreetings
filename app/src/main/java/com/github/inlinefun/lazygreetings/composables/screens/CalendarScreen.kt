@@ -12,15 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.inlinefun.lazygreetings.R
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
@@ -42,25 +38,11 @@ fun CalendarScreen(
     modifier: Modifier = Modifier,
     calendarViewModel: CalendarViewModel,
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-
     val startingMonth = calendarViewModel.startingMonth
     val today by calendarViewModel.today.collectAsStateWithLifecycle()
     val currentMonthOffset by calendarViewModel.currentMonthOffset.collectAsStateWithLifecycle()
     val currentMonth by calendarViewModel.currentMonth.collectAsStateWithLifecycle()
     val selectedDate by calendarViewModel.selectedDate.collectAsStateWithLifecycle()
-
-    DisposableEffect(key1 = lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                calendarViewModel.refreshData()
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
 
     CalendarContent(
         startingMonth = startingMonth,
@@ -154,11 +136,13 @@ private fun CalendarContent(
                 icon = R.drawable.add,
                 onClick = {
                     val dateInEpochTime = selectedDate.toEpochDay()
-                    navigateTo(LazyNavRoute.AddCalendarEvent(
-                        data = AddCalendarEventData(
-                            date = dateInEpochTime
+                    navigateTo(
+                        LazyNavRoute.AddCalendarEvent(
+                            data = AddCalendarEventData(
+                                date = dateInEpochTime
+                            )
                         )
-                    ))
+                    )
                 }
             )
         },
