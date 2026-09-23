@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygreetings.composables.components.calendar
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
@@ -10,15 +11,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +40,8 @@ import com.github.inlinefun.lazygreetings.data.calendar.CalendarDayOfWeek
 import com.github.inlinefun.lazygreetings.data.viewmodels.DEFAULT_CALENDAR_MONTH_OFFSET
 import com.github.inlinefun.lazygreetings.data.viewmodels.TOTAL_CALENDAR_MONTHS
 import com.github.inlinefun.lazygreetings.util.calendar.generateCalendarDays
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -100,17 +102,35 @@ fun LazyCalendar(
                 key2 = selectedDate,
                 key3 = today
             ) {
-                value = generateCalendarDays(
-                    month = currentMonth,
-                    selected = selectedDate,
-                    today = today
-                )
+                value = null
+                value = withContext(
+                    context = Dispatchers.Default
+                ) {
+                    generateCalendarDays(
+                        month = currentMonth,
+                        selected = selectedDate,
+                        today = today
+                    )
+                }
             }
-            daysOfMonth?.let { days ->
-                CalendarGrid(
-                    days = days,
-                    onDaySelect = onDaySelect
-                )
+            Crossfade(
+                targetState = daysOfMonth
+            ) { days ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(ratio = 7f / 6f)
+                ) {
+                    if (days != null) {
+                        CalendarGrid(
+                            days = days,
+                            onDaySelect = onDaySelect
+                        )
+                    } else {
+                        CircularWavyProgressIndicator()
+                    }
+                }
             }
         }
     }
@@ -122,27 +142,35 @@ private fun CalendarGrid(
     onDaySelect: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(count = 7),
+    val rows = days.chunked(size = 7)
+    Column(
         modifier = modifier
+            .fillMaxSize()
     ) {
-        items(
-            items = days,
-        ) { day ->
-            CalendarDayCell(
-                day = day,
-                onClick = {
-                    onDaySelect(day.date)
+        rows
+            .forEach { weekDays ->
+                Row {
+                    weekDays
+                        .forEach { day ->
+                            CalendarDayCell(
+                                day = day,
+                                onClick = {
+                                    onDaySelect(day.date)
+                                },
+                                modifier = Modifier
+                                    .weight(1.0f)
+                            )
+                        }
                 }
-            )
-        }
+            }
     }
 }
 
 @Composable
 private fun CalendarDayCell(
     day: CalendarDay,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val borderRadiusPercent by animateIntAsState(
         targetValue = when {
@@ -181,7 +209,7 @@ private fun CalendarDayCell(
     )
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .aspectRatio(ratio = 1.0f)
             .padding(all = 2.dp)
             .clip(shape)
