@@ -6,7 +6,9 @@
     <string name="label_back">Back</string>
     <string name="label_more">More</string>
     <string name="label_add_event">Add Event</string>
-    <string name="planned_events">Planned events</string>
+    <string name="label_planned_events">Planned events</string>
+    <string name="label_grant_permission">Grant permission</string>
+    <string name="label_open_settings">Open settings</string>
 
     <string name="month_january">January</string>
     <string name="month_february">February</string>
@@ -29,4 +31,6 @@
     <string name="day_saturday">Saturday</string>
 
     <string name="str_not_implemented">Feature is not yet implemented</string>
+    <string name="str_request_calendar_permission">The calendar permission is required for calendar event based functionality</string>
+    <string name="str_calender_permission_denied">The calendar event functionality is not available without calendar permissions</string>
 </resources>
