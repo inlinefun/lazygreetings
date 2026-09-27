@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -110,14 +109,13 @@ fun LazyCalendar(
                     .fillMaxWidth()
                     .aspectRatio(ratio = 7f / 6f)
             ) {
-                if (daysOfMonth != null) {
-                    CalendarGrid(
-                        days = daysOfMonth!!,
-                        onDaySelect = onDaySelect
-                    )
-                } else {
-                    CircularWavyProgressIndicator()
-                }
+                daysOfMonth
+                    ?.let { days ->
+                        CalendarGrid(
+                            days = days,
+                            onDaySelect = onDaySelect
+                        )
+                    }
             }
         }
     }
