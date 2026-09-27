@@ -16,12 +16,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -91,21 +92,33 @@ fun LazyCalendar(
         ) { pageOffset ->
             val monthsToAdd = pageOffset - DEFAULT_CALENDAR_MONTH_OFFSET
             val currentMonth = startMonth.plusMonths(monthsToAdd.toLong())
-            val daysOfMonth = remember(
+            val daysOfMonth by produceState<List<CalendarDay>?>(
+                initialValue = null,
                 key1 = currentMonth,
                 key2 = selectedDate,
                 key3 = today
             ) {
-                generateCalendarDays(
+                value = generateCalendarDays(
                     month = currentMonth,
                     selected = selectedDate,
                     today = today
                 )
             }
-            CalendarGrid(
-                days = daysOfMonth,
-                onDaySelect = onDaySelect
-            )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(ratio = 7f / 6f)
+            ) {
+                if (daysOfMonth != null) {
+                    CalendarGrid(
+                        days = daysOfMonth!!,
+                        onDaySelect = onDaySelect
+                    )
+                } else {
+                    CircularWavyProgressIndicator()
+                }
+            }
         }
     }
 }
