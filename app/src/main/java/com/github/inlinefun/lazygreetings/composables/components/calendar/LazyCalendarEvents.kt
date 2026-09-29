@@ -31,18 +31,19 @@ import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygreetings.R
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
+import com.google.accompanist.permissions.MultiplePermissionsState
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
 fun LazyCalendarEvents(
     modifier: Modifier = Modifier
 ) {
-    val calendarPermissionState = rememberPermissionState(
-        permission = Manifest.permission.WRITE_CALENDAR
+    val calendarPermissionState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            Manifest.permission.READ_CALENDAR,
+            Manifest.permission.WRITE_CALENDAR
+        )
     )
     Column(
         modifier = modifier
@@ -54,12 +55,12 @@ fun LazyCalendarEvents(
             style = MaterialTheme.typography.titleMedium
         )
         Crossfade(
-            targetState = calendarPermissionState.status,
+            targetState = calendarPermissionState.allPermissionsGranted,
             modifier = Modifier
                 .weight(1.0f)
                 .fillMaxWidth()
         ) { calendarPermissionStatus ->
-            if (calendarPermissionStatus.isGranted) {
+            if (calendarPermissionStatus) {
                 CalendarEventsList()
             } else {
                 PermissionRequest(
@@ -89,14 +90,14 @@ private fun CalendarEventsList(
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
 private fun PermissionRequest(
-    permissionState: PermissionState,
+    permissionState: MultiplePermissionsState,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     var triedAskingPermission by remember { mutableStateOf(false) }
     val deniedPermission by remember {
         derivedStateOf {
-            !permissionState.status.shouldShowRationale && triedAskingPermission
+            !permissionState.shouldShowRationale && triedAskingPermission
         }
     }
     Column(
@@ -138,7 +139,7 @@ private fun PermissionRequest(
                                 .startActivity(intent)
                         }
                 } else {
-                    permissionState.launchPermissionRequest()
+                    permissionState.launchMultiplePermissionRequest()
                 }
                 triedAskingPermission = true
             }
