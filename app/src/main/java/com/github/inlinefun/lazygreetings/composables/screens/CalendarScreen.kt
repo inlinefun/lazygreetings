@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygreetings.composables.screens
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,11 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastJoinToString
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.inlinefun.lazygreetings.R
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
@@ -26,6 +30,7 @@ import com.github.inlinefun.lazygreetings.composables.components.common.LazyFloa
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyCalendarAppbar
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarMonthOfYear
 import com.github.inlinefun.lazygreetings.data.navigation.LazyNavRoute
+import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarEventsViewModel
 import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarViewModel
 import com.github.inlinefun.lazygreetings.data.viewmodels.DEFAULT_CALENDAR_MONTH_OFFSET
 import java.time.LocalDate
@@ -42,6 +47,20 @@ fun CalendarScreen(
     val currentMonthOffset by calendarViewModel.currentMonthOffset.collectAsStateWithLifecycle()
     val currentMonth by calendarViewModel.currentMonth.collectAsStateWithLifecycle()
     val selectedDate by calendarViewModel.selectedDate.collectAsStateWithLifecycle()
+
+    val vm = hiltViewModel<CalendarEventsViewModel>()
+
+    LaunchedEffect(currentMonth) {
+        vm.getPrimaryCalendar()?.let { calendar ->
+            Log.d("test", calendar.toString())
+            vm.getCalendarEventsInMonth(
+                calendarID = calendar.id,
+                month = currentMonth
+            )?.let { events ->
+                Log.d("test", events.fastJoinToString(separator = "; "))
+            }
+        }
+    }
 
     CalendarContent(
         startingMonth = startingMonth,
