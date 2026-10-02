@@ -1,6 +1,5 @@
 package com.github.inlinefun.lazygreetings.composables.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,12 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastJoinToString
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.inlinefun.lazygreetings.R
 import com.github.inlinefun.lazygreetings.composables.common.LazyGreetingsTheme
@@ -28,6 +26,7 @@ import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyCa
 import com.github.inlinefun.lazygreetings.composables.components.calendar.LazyCalendarEvents
 import com.github.inlinefun.lazygreetings.composables.components.common.LazyFloatingActionButton
 import com.github.inlinefun.lazygreetings.composables.components.navigation.LazyCalendarAppbar
+import com.github.inlinefun.lazygreetings.data.calendar.CalendarEventInstance
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarMonthOfYear
 import com.github.inlinefun.lazygreetings.data.navigation.LazyNavRoute
 import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarEventsViewModel
@@ -41,6 +40,7 @@ fun CalendarScreen(
     navigateTo: (LazyNavRoute) -> Unit,
     modifier: Modifier = Modifier,
     calendarViewModel: CalendarViewModel,
+    eventsViewModel: CalendarEventsViewModel
 ) {
     val startingMonth = calendarViewModel.startingMonth
     val today by calendarViewModel.today.collectAsStateWithLifecycle()
@@ -48,21 +48,21 @@ fun CalendarScreen(
     val currentMonth by calendarViewModel.currentMonth.collectAsStateWithLifecycle()
     val selectedDate by calendarViewModel.selectedDate.collectAsStateWithLifecycle()
 
-    val vm = hiltViewModel<CalendarEventsViewModel>()
+    val eventInstances by eventsViewModel.currentEventInstances.collectAsStateWithLifecycle(
+        initialValue = null
+    )
 
-    LaunchedEffect(currentMonth) {
-        vm.getPrimaryCalendar()?.let { calendar ->
-            Log.d("test", calendar.toString())
-            vm.getCalendarEventsInMonth(
-                calendarID = calendar.id,
-                month = currentMonth
-            )?.let { events ->
-                Log.d("test", events.fastJoinToString(separator = "; "))
-            }
+    LaunchedEffect(
+        key1 = currentMonth
+    ) {
+        snapshotFlow {
+            currentMonth
+        }.collect { month ->
+            eventsViewModel.refreshEventInstances(month)
         }
     }
 
-    CalendarContent(
+    CalendarScreenWrapper(
         startingMonth = startingMonth,
         currentMonth = currentMonth,
         selectedDate = selectedDate,
@@ -71,12 +71,15 @@ fun CalendarScreen(
         currentMonthOffset = currentMonthOffset,
         updateMonthOffset = calendarViewModel::updateCurrentMonthOffset,
         onDaySelect = calendarViewModel::updateSelectedDate,
-        modifier = modifier
+        modifier = modifier,
+        instances = eventInstances,
+        refreshEventInstances = eventsViewModel::refreshEventInstances
     )
 }
 
 @Composable
-private fun CalendarContent(
+private fun CalendarScreenWrapper(
+    // calendar
     today: LocalDate,
     selectedDate: LocalDate,
     currentMonthOffset: Int,
@@ -85,6 +88,9 @@ private fun CalendarContent(
     updateMonthOffset: (Int) -> Unit,
     onDaySelect: (LocalDate) -> Unit,
     navigateTo: (LazyNavRoute) -> Unit,
+    // events
+    instances: List<CalendarEventInstance>?,
+    refreshEventInstances: (YearMonth) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -174,7 +180,12 @@ private fun CalendarContent(
                 updateMonthOffset = updateMonthOffset,
                 onDaySelect = onDaySelect,
             )
-            LazyCalendarEvents()
+            LazyCalendarEvents(
+                instances = instances,
+                refreshEventInstances = {
+                    refreshEventInstances(currentMonth)
+                }
+            )
         }
     }
 }
@@ -185,7 +196,7 @@ private fun PreviewScreen() {
     val month = YearMonth.now()
     val day = LocalDate.now()
     LazyGreetingsTheme {
-        CalendarContent(
+        CalendarScreenWrapper(
             navigateTo = { },
             currentMonth = month,
             startingMonth = month,
@@ -194,6 +205,8 @@ private fun PreviewScreen() {
             currentMonthOffset = DEFAULT_CALENDAR_MONTH_OFFSET,
             updateMonthOffset = { },
             onDaySelect = { },
+            instances = null,
+            refreshEventInstances = { }
         )
     }
 }

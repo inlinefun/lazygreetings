@@ -19,6 +19,7 @@ import com.github.inlinefun.lazygreetings.composables.screens.AddCalendarEventSc
 import com.github.inlinefun.lazygreetings.composables.screens.CalendarScreen
 import com.github.inlinefun.lazygreetings.composables.screens.SettingsScreen
 import com.github.inlinefun.lazygreetings.data.navigation.LazyNavRoute
+import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarEventsViewModel
 import com.github.inlinefun.lazygreetings.data.viewmodels.CalendarViewModel
 
 @Composable
@@ -32,9 +33,11 @@ fun LazyNavigationHost(
         entryProvider = entryProvider {
             entry<LazyNavRoute.Calendar> {
                 val calendarViewModel = hiltViewModel<CalendarViewModel>()
+                val eventsViewModel = hiltViewModel<CalendarEventsViewModel>()
                 CalendarScreen(
                     navigateTo = backStack::add,
-                    calendarViewModel = calendarViewModel
+                    calendarViewModel = calendarViewModel,
+                    eventsViewModel = eventsViewModel
                 )
             }
             entry<LazyNavRoute.AddCalendarEvent>(

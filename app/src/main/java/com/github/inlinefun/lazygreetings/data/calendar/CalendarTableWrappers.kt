@@ -10,8 +10,8 @@ data class CalendarData(
 )
 
 // https://developer.android.com/identity/providers/calendar-provider#events
-data class CalendarEvent(
-    val id: Long,
+data class CalendarEventInstance(
+    val eventID: Long,
     val instanceID: Long,
     val title: String?,
     val description: String?,

@@ -11,9 +11,11 @@ import androidx.core.database.getStringOrNull
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import com.github.inlinefun.lazygreetings.data.calendar.CalendarData
-import com.github.inlinefun.lazygreetings.data.calendar.CalendarEvent
+import com.github.inlinefun.lazygreetings.data.calendar.CalendarEventInstance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.time.YearMonth
 import java.time.ZoneOffset
 
@@ -54,6 +56,24 @@ class CalendarEventsViewModel @Inject constructor(
     application = application
 ) {
 
+    private val _primaryCalendar = MutableStateFlow<CalendarData?>(value = null)
+    private val _currentEventInstances = MutableStateFlow<List<CalendarEventInstance>?>(value = null)
+
+    val primaryCalendar = _primaryCalendar.asStateFlow()
+    val currentEventInstances = _currentEventInstances.asStateFlow()
+
+    fun refreshEventInstances(
+        currentMonth: YearMonth
+    ) {
+        _primaryCalendar.value = getPrimaryCalendar()
+        primaryCalendar.value?.let { calendar ->
+            _currentEventInstances.value = getCalendarEventsInMonth(
+                calendarID = calendar.id,
+                month = currentMonth
+            )
+        }
+    }
+
     fun getPrimaryCalendar(): CalendarData? {
         val uri = CalendarContract.Calendars.CONTENT_URI
         val selection = "(" + "(${CalendarContract.Calendars.IS_PRIMARY} = ?)" + ")"
@@ -93,7 +113,7 @@ class CalendarEventsViewModel @Inject constructor(
         }
     }
 
-    fun getCalendarEventsInMonth(calendarID: Long, month: YearMonth): List<CalendarEvent>? {
+    fun getCalendarEventsInMonth(calendarID: Long, month: YearMonth): List<CalendarEventInstance>? {
         val startTimeInMillis = month
             .atDay(1)
             .atTime(0, 0, 0)
@@ -121,7 +141,7 @@ class CalendarEventsViewModel @Inject constructor(
                 .contentResolver
                 .query(uri, CALENDAR_INSTANCE_QUERY_PROJECTION, selection, selectionArgs, sortOrder)
                 ?.use { cursor ->
-                    val events = mutableListOf<CalendarEvent>()
+                    val events = mutableListOf<CalendarEventInstance>()
                     while (cursor.moveToNext()) {
                         val instanceID = cursor
                             .getLong(CALENDAR_INSTANCE_QUERY_PROJECTION_ID_INDEX)
@@ -136,8 +156,8 @@ class CalendarEventsViewModel @Inject constructor(
                         val endTime = cursor
                             .getLong(CALENDAR_INSTANCE_QUERY_PROJECTION_END_INDEX)
 
-                        CalendarEvent(
-                            id = eventID,
+                        CalendarEventInstance(
+                            eventID = eventID,
                             instanceID = instanceID,
                             title = title,
                             description = description,

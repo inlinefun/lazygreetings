@@ -32,4 +32,5 @@
     <string name="str_not_implemented">Feature is not yet implemented</string>
     <string name="str_request_calendar_permission">The calendar permission is required for calendar event based functionality</string>
     <string name="str_calender_permission_denied">The calendar event functionality is not available without calendar permissions</string>
+    <string name="str_no_planned_events">No planned events</string>
 </resources>
