@@ -186,10 +186,12 @@ private fun CalendarEventItem(
             }
         },
         supportingContent = {
-            event.description?.let {
-                Text(
-                    text = it
-                )
+            event.description?.let { description ->
+                if (description.isNotEmpty()) {
+                    Text(
+                        text = description
+                    )
+                }
             }
         },
         verticalAlignment = Alignment.CenterVertically,
